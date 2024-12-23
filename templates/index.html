@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Aggregator and Risk Assessment Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>AI-Powered News Aggregator & Risk Assessment Tool</h1>
+        
+        <form action="/search" method="POST">
+            <input type="text" name="query" placeholder="Enter Company/Topic (e.g., Tata Energy)" required>
+            <button type="submit">Search</button>
+        </form>
+        
+        {% if query %}
+            <h2>Results for: "{{ query }}"</h2>
+            <div class="results">
+                {% for article in articles %}
+                    <div class="article">
+                        <h3>{{ article.title }}</h3>
+                        <p>{{ article.description }}</p>
+                        <p><strong>Sentiment Score:</strong> {{ article.sentiment }}</p>
+                        <p><strong>Risk Indicators:</strong> {% if article.risks %}{{ article.risks | join(', ') }}{% else %}None{% endif %}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
